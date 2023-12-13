@@ -4,7 +4,7 @@ import { Page } from '../playwright/fixtures';
 export async function useFreestylePage(props: {page: Page}) {
   const { page } = props;
   const generate = async () => {
-    await page.waitForURL('https://platform-testing.workmagic.io/studio/freestyle');
+    await page.waitForURL('/studio/freestyle');
   
     await page.getByPlaceholder('Be as much descriptive as possible to help the AI give the best results').fill('detox tea in the bottle, on a platform, in the style of commercial imagery, studio lighting, depth of field, ultra detailed');
   

@@ -1,23 +1,21 @@
 import { test as setup, expect } from '@playwright/test';
-
-import { useLoginPage } from '../../pages/useLogin'
+import { Login, BASE_ACCOUNTS, ACCOUNTS_SUBSCRIBE } from '../../authentication';
 
 setup('authenticate as new user', async ({ page }) => {
-  const { onLogin } = await useLoginPage({
-    page,
-    url: 'https://platform-preview.workmagic.io/home',
-    authFile: 'playwright/.auth/newUser.json'
-  });
-  await onLogin('e2e.notSubscribed@workmagic.io');
-  expect(page).toHaveURL(/http:\/\/localhost:5174\/home/);
+  const login = new Login(page);
+  const account = BASE_ACCOUNTS[ACCOUNTS_SUBSCRIBE.NOT_SUBSCRIBED];
+  await login.onLogin(account.eMail, account.code);
+  await page.context().storageState({ path: 'playwright/.auth/newUser.json' });
+  expect(page).toHaveURL('home');
+  await expect(page.getByText('e2e.notSubscribed')).toBeVisible();
+  
 });
 
-setup('authenticate as new regular user', async ({ page }) => {
-  const { onLogin } = await useLoginPage({
-    page,
-    url: 'https://platform-preview.workmagic.io/home',
-    authFile: 'playwright/.auth/RegularUser.json'
-  });
-  await onLogin('e2e.subscribed@workmagic.io');
-  expect(page).toHaveURL(/http:\/\/localhost:5174\/home/);
+setup('authenticate as regular user', async ({ page }) => {
+  const login = new Login(page);
+  const account = BASE_ACCOUNTS[ACCOUNTS_SUBSCRIBE.SUBSCRIBED];
+  await login.onLogin(account.eMail, account.code);
+  await page.context().storageState({ path: 'playwright/.auth/RegularUser.json' });
+  expect(page).toHaveURL('home');
+  await expect(page.getByText('e2e.subscribed')).toBeVisible();
 });

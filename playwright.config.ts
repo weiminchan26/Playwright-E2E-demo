@@ -8,6 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
+    baseURL: 'https://platform-preview.workmagic.io',
     trace: 'on-first-retry',
   },
   projects: [
