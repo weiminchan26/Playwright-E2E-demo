@@ -16,7 +16,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: playwright/.auth
-        key: ${{ runner.os }}-playwright-auth-${{ hashFiles('playwright/.auth/**') }
+        key: playwright-auth-${{ hashFiles('playwright/.auth/**') }}-${{ env.TIMESTAMP }}
     - uses: actions/setup-node@v3
       with:
         node-version: 18
