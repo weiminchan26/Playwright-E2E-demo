@@ -15,7 +15,7 @@ setup('authenticate as regular user', async ({ page }) => {
   const login = new Login(page);
   const account = BASE_ACCOUNTS[ACCOUNTS_SUBSCRIBE.SUBSCRIBED];
   await login.onLogin(account.eMail, account.code);
-  await page.context().storageState({ path: 'playwright/.auth/RegularUser.json' });
+  await page.context().storageState({ path: 'playwright/.auth/regularUser.json' });
   expect(page).toHaveURL('home');
   await expect(page.getByText('e2e.subscribed')).toBeVisible();
 });
