@@ -15,7 +15,9 @@ jobs:
       id: cache-auth
       uses: actions/cache@v3
       with:
-        path: playwright/.auth
+        path: |
+          playwright/.auth/newUser.json
+          playwright/.auth/RegularUser.json
         key: playwright-auth-${{ hashFiles('playwright/.auth/**') }}-${{ env.TIMESTAMP }}
     - uses: actions/setup-node@v3
       with:
