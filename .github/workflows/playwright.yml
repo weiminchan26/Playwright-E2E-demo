@@ -14,6 +14,12 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
+    - name: Cache auth
+        id: cache-npm
+        uses: actions/cache@v3
+        with:
+          path: playwright/.auth
+          key: ${{ runner.os }}-playwright-auth-${{ hashFiles('playwright/.auth/**') }
     - name: Install dependencies
       run: npm install -g pnpm && pnpm install
     - name: Install Playwright Browsers
