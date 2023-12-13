@@ -34,13 +34,15 @@ export const test = base.extend<MyFixtures>({
 
     const page = new RegularUserPage(await context.newPage());
     await use(page);
-    await context.close();
+    // await context.close();
   },
   newUserPage: async ({ browser }, use) => {
     const context = await browser.newContext({ storageState: 'playwright/.auth/newUser.json' });
 
     const page = new NewUserPage(await context.newPage());
     await use(page);
-    await context.close();
+    // await context.close();
   },
 });
+
+test.describe = base.describe;

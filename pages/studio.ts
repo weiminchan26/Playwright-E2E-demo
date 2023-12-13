@@ -1,8 +1,13 @@
-import type { Page } from '@playwright/test';
-import { GlobalModal } from './globalModal';
+import { expect, type Locator, type Page } from '@playwright/test';
+import { GlobalModal } from '../components/globalModal';
 
 export class StudioPage {
-  constructor(public readonly page: Page) {}
+  private readonly entryWithoutProduct: Locator;
+  private readonly entryListBox: Locator;
+  constructor(public readonly page: Page) {
+    this.entryListBox = page.getByRole('img', { name: 'plus' }).locator('svg');
+    this.entryWithoutProduct = page.locator('li').filter({ hasText: 'Without productGenerate' });
+  }
 
   async goto() {
     const globalModal = new GlobalModal(this.page);
@@ -10,11 +15,10 @@ export class StudioPage {
 	  await globalModal.close();
   }
   async generateWithoutProductEntry() {
-    // await this.page.waitForResponse('https://platform-preview.workmagic.io/api/assets?page=1&size=15&archived=false&search=&pipelineKeys=freestyleGenerator,fashionModelSceneGenerator,productSceneGenerator,petSceneGenerator');
-    const entry = await this.page.locator('[data-mn="image_generator_generate_entry"]');
-    await entry.waitFor();
-    await entry.click();
-    await this.page.getByText('Without product').click();
+    await expect(this.entryListBox).toBeVisible();
+    await this.entryListBox.click();
+    await expect(this.entryWithoutProduct).toBeVisible();
+    await this.entryWithoutProduct.click();
 
     await this.page.waitForURL('/studio/freestyle');
   };
