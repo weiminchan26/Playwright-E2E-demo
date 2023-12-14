@@ -1,6 +1,6 @@
 import { test as base, type Page } from '@playwright/test';
 
-class RegularUserPage {
+class subscribed {
   page: Page;
   // greeting: Locator;
 
@@ -10,7 +10,7 @@ class RegularUserPage {
   }
 }
 
-class NewUserPage {
+class unsubscribed {
   // Page signed in as "user".
   page: Page;
   // greeting: Locator;
@@ -22,26 +22,33 @@ class NewUserPage {
 }
 
 type MyFixtures = {
-  regularUserPage: RegularUserPage;
-  newUserPage: NewUserPage;
+  subscribed: subscribed;
+  unsubscribed: unsubscribed;
 };
+
 
 export * from '@playwright/test';
 
 export const test = base.extend<MyFixtures>({
-  regularUserPage: async ({ browser }, use) => {
-    const context = await browser.newContext({ storageState: 'playwright/.auth/regularUser.json' });
+  subscribed: async ({ browser }, use) => {
+    const context = await browser.newContext({ storageState: 'playwright/.auth/subscribed.json', });
+    const page = new subscribed(await context.newPage());
+		await context.addInitScript(() => {
+			window.sessionStorage.setItem('close_global_modal', '1');
+		});
 
-    const page = new RegularUserPage(await context.newPage());
     await use(page);
-    // await context.close();
+    await context.close();
   },
-  newUserPage: async ({ browser }, use) => {
-    const context = await browser.newContext({ storageState: 'playwright/.auth/newUser.json' });
+  unsubscribed: async ({ browser }, use) => {
+    const context = await browser.newContext({ storageState: 'playwright/.auth/unsubscribed.json' });
 
-    const page = new NewUserPage(await context.newPage());
+    const page = new unsubscribed(await context.newPage());
+		await context.addInitScript(() => {
+			window.sessionStorage.setItem('close_global_modal', '1');
+		});
     await use(page);
-    // await context.close();
+    await context.close();
   },
 });
 

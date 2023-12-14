@@ -1,5 +1,4 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { GlobalModal } from '../components/globalModal';
 
 export class StudioPage {
   private readonly entryWithoutProduct: Locator;
@@ -10,9 +9,7 @@ export class StudioPage {
   }
 
   async goto() {
-    const globalModal = new GlobalModal(this.page);
     await this.page.goto('/studio');
-	  await globalModal.close();
   }
   async generateWithoutProductEntry() {
     await expect(this.entryListBox).toBeVisible();

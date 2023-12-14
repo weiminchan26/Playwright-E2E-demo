@@ -1,5 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { GlobalModal } from '../components/globalModal';
+// import { GlobalModal } from '../components/globalModal';
 
 export class FreestylePage {
   private readonly promptBox: Locator;
@@ -12,9 +12,9 @@ export class FreestylePage {
   }
 
   async goto() {
-    const globalModal = new GlobalModal(this.page);
+    // const globalModal = new GlobalModal(this.page);
     await this.page.goto('/studio/freestyle');
-	  await globalModal.close();
+	  // await globalModal.close();
   }
   async generate() {
     await this.promptBox.fill('detox tea in the bottle, on a platform, in the style of commercial imagery, studio lighting, depth of field, ultra detailed');

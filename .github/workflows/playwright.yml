@@ -16,8 +16,8 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          playwright/.auth/newUser.json
-          playwright/.auth/regularUser.json
+          playwright/.auth/unsubscribed.json
+          playwright/.auth/subscribed.json
         key: playwright-auth-${{ hashFiles('playwright/.auth/**') }}-${{ env.TIMESTAMP }}
     - uses: actions/setup-node@v3
       with:
