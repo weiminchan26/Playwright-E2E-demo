@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { FreestylePage } from '../pages/freestyle-page';
 
 export class StudioPage {
   private readonly entryWithoutProduct: Locator;
@@ -18,5 +19,6 @@ export class StudioPage {
     await this.entryWithoutProduct.click();
 
     await this.page.waitForURL('/studio/freestyle');
+    return new FreestylePage(this.page);
   };
 }

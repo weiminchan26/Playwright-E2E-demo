@@ -1,11 +1,11 @@
-import { expect, type Locator, type Page } from '@playwright/test';
-// import { GlobalModal } from '../components/globalModal';
+import { expect, type Locator, type Page, type Request } from '@playwright/test';
+// import { GlobalModal } from './components/globalModal';
 
 export class FreestylePage {
   private readonly promptBox: Locator;
   private readonly generateBtn: Locator;
   public readonly generatingBtn: Locator;
-  constructor(public readonly page: Page) {
+  constructor(public readonly page: Page, public readonly request?: Request) {
     this.promptBox = page.getByPlaceholder('Be as much descriptive as');
     this.generateBtn = page.getByRole('button', { name: 'Generate' });
     this.generatingBtn = page.getByRole('button', { name: 'loading Generating' });

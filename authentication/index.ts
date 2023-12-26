@@ -28,7 +28,7 @@ export class Login {
   }
 
   async inputCode(codeArr: string[]) {
-    // 获取所有的 input 元素，并填入内容 "1"
+    // 获取所有的 input 元素，并填入内容
     await this.page.getByLabel('code1').first().fill(codeArr[0]);
     await this.page.getByLabel('code2').first().fill(codeArr[1]);
     await this.page.getByLabel('code3').first().fill(codeArr[2]);

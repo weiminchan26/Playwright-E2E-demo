@@ -1,31 +1,32 @@
-import type { Locator, Page } from '@playwright/test';
+import { type Locator, type Page, type APIRequestContext, expect } from '@playwright/test';
 
 export class GlobalModal {
   public readonly modalWrap: Locator;
   // public readonly modalWrap: Locator;
-  constructor(public readonly page: Page) {
-    this.modalWrap = page.locator('.ant-modal-wrap');
+  constructor(public readonly page: Page, public readonly request: APIRequestContext) {
+    this.modalWrap = page.locator('.ant-modal-wrap').locator('visible=true');
   }
 
 
-  async close() {
-    this.page.on('dialog', async dialog => {
-      console.log('12345:', dialog.message());
-      await dialog.dismiss();
+  async closeAll() {
+    const closeFestiveOfferClickType = await this.request.post('/api/user/updateAppNotification', {
+      data: {
+        festiveOfferClickType:  "close",
+        showCategory: "festiveOffer"
+      },
     });
-    await this.modalWrap.waitFor();
-    const isVisible = async () => {
-      if (await this.modalWrap.count() === 1) {
-        return this.modalWrap.isVisible()
-      } else {
-        return this.modalWrap.first().isVisible();
-      }
-    }
-    while(await isVisible()) {
-      // console.log('this.modal: ', this.modal);
-      const closeBox = this.page.getByRole('button', { name: 'Close', exact: true });
-      await closeBox.locator('visible=true').click();
-      // console.log('11111:', await isVisible());
+    await expect(closeFestiveOfferClickType.ok()).toBeTruthy();
+    const closeNPSSurvey = await this.request.post('/api/survey/remindMeLater');
+    await expect(closeNPSSurvey.ok()).toBeTruthy();
+  
+    const dialogType = ['completion', 'deadlineMissed', 'copilotFinished', 'generateProductImagesFinished', 'createCampaignFinished', 'onboardingPaywall']
+    for(const type of dialogType) {
+      const closeDialog = await this.request.post('/api/noviceTask/changeDialogClickStatus', {
+        data: {
+          dialogType: type,
+        },
+      });
+      await expect(closeDialog.ok()).toBeTruthy();
     }
   }
 }
