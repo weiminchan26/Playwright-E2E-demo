@@ -1,4 +1,4 @@
-import { type Locator, type Page, type APIRequestContext, expect } from '@playwright/test';
+import { type Locator, type Page, type APIRequestContext, expect, request } from '@playwright/test';
 
 export class GlobalModal {
   public readonly modalWrap: Locator;
@@ -9,14 +9,23 @@ export class GlobalModal {
 
 
   async closeAll() {
+    await this.page.goto('/');
+    const token = await this.page.evaluateHandle(() => window.localStorage.getItem('user_token'));
     const closeFestiveOfferClickType = await this.request.post('/api/user/updateAppNotification', {
       data: {
         festiveOfferClickType:  "close",
         showCategory: "festiveOffer"
       },
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     });
     await expect(closeFestiveOfferClickType.ok()).toBeTruthy();
-    const closeNPSSurvey = await this.request.post('/api/survey/remindMeLater');
+    const closeNPSSurvey = await this.request.post('/api/survey/remindMeLater', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     await expect(closeNPSSurvey.ok()).toBeTruthy();
   
     const dialogType = ['completion', 'deadlineMissed', 'copilotFinished', 'generateProductImagesFinished', 'createCampaignFinished', 'onboardingPaywall']
@@ -25,6 +34,9 @@ export class GlobalModal {
         data: {
           dialogType: type,
         },
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
       await expect(closeDialog.ok()).toBeTruthy();
     }

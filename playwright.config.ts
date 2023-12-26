@@ -6,10 +6,10 @@ export const SUBSCRIBED_STORAGE_STATE = path.join(__dirname, 'playwright/.auth/s
 
 export const UNSUBSCRIBED_STORAGE_STATE = path.join(__dirname, 'playwright/.auth/unsubscribed.json');
 
-const getToken = (path: string): string => {
-  const state = JSON.parse(fs.readFileSync(path, 'utf8'));
-  return state['origins'][0].localStorage.find((ls) => ls.name === 'user_token')['value'];
-}
+// const getToken = (path: string): string => {
+//   const state = JSON.parse(fs.readFileSync(path, 'utf8'));
+//   return state['origins'][0].localStorage.find((ls) => ls.name === 'user_token')['value'];
+// }
 
 export default defineConfig({
   testDir: 'tests',
@@ -41,7 +41,7 @@ export default defineConfig({
         storageState: SUBSCRIBED_STORAGE_STATE,
         extraHTTPHeaders: {
           'content-type': 'application/json',
-          'Authorization': `Bearer ${getToken(SUBSCRIBED_STORAGE_STATE)}`,
+          // 'Authorization': `Bearer ${getToken(SUBSCRIBED_STORAGE_STATE)}`,
         }
       },
       testIgnore: ['**/*unsubscribed.spec.ts', '**/setup.ts'],
@@ -54,7 +54,7 @@ export default defineConfig({
         storageState: UNSUBSCRIBED_STORAGE_STATE,
         extraHTTPHeaders: {
           'content-type': 'application/json',
-          'Authorization': `Bearer ${getToken(SUBSCRIBED_STORAGE_STATE)}`,
+          // 'Authorization': `Bearer ${getToken(SUBSCRIBED_STORAGE_STATE)}`,
         }
       },
       testMatch: '**/*.unsubscribed.spec.ts',
@@ -68,7 +68,7 @@ export default defineConfig({
         storageState: SUBSCRIBED_STORAGE_STATE,
         extraHTTPHeaders: {
           'content-type': 'application/json',
-          'Authorization': `Bearer ${getToken(SUBSCRIBED_STORAGE_STATE)}`,
+          // 'Authorization': `Bearer ${getToken(SUBSCRIBED_STORAGE_STATE)}`,
         }
       },
       testIgnore: ['**/*unsubscribed.spec.ts'],
@@ -81,7 +81,7 @@ export default defineConfig({
         storageState: UNSUBSCRIBED_STORAGE_STATE,
         extraHTTPHeaders: {
           'content-type': 'application/json',
-          'Authorization': `Bearer ${getToken(SUBSCRIBED_STORAGE_STATE)}`,
+          // 'Authorization': `Bearer ${getToken(SUBSCRIBED_STORAGE_STATE)}`,
         }
       },
       testMatch: '**/*.unsubscribed.spec.ts',
