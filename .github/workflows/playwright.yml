@@ -50,6 +50,5 @@ jobs:
           }
           EOF
           )
-          curl -X POST -H "Content-Type: application/json" \
-    -d "$MESSAGE" \
-    https://open.larksuite.com/open-apis/bot/v2/hook/298e3a34-c6ff-42da-81ad-67e400196e1b
+          curl -X POST -H "Content-Type: application/json" -d "$MESSAGE" \
+          https://open.larksuite.com/open-apis/bot/v2/hook/298e3a34-c6ff-42da-81ad-67e400196e1b
