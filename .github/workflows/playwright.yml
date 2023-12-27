@@ -36,7 +36,7 @@ jobs:
         retention-days: 30
     - name: Send message on test failure
         if: ${{ failure() }}
-        run: |
+        run:
           # 获取 Workflow URL
           URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
 
