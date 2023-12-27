@@ -35,22 +35,22 @@ jobs:
         path: playwright-report/
         retention-days: 30
     - name: Send message on test failure
-        if: ${{ failure() }}
-        run:
-          # 获取 Workflow URL
-          URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+      if: ${{ failure() }}
+      run:
+        # 获取 Workflow URL
+        URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
 
-          # 构建消息内容
-          # MESSAGE=$(cat <<EOF
-          # {
-          #   "msg_type": "text",
-          #   "content": {
-          #     "text": "GitHub Actions Workflow URL: \n$URL"
-          #   }
-          # }
-          # EOF
-          # )
+        # 构建消息内容
+        MESSAGE=$(cat <<EOF
+        {
+          "msg_type": "text",
+          "content": {
+            "text": "GitHub Actions Workflow URL: \n$URL"
+          }
+        }
+        EOF
+        )
 
-          # curl -X POST -H "Content-Type: application/json" \
-          # -d "$MESSAGE" \
-          # https://open.larksuite.com/open-apis/bot/v2/hook/298e3a34-c6ff-42da-81ad-67e400196e1b
+        curl -X POST -H "Content-Type: application/json" \
+        -d "$MESSAGE" \
+        https://open.larksuite.com/open-apis/bot/v2/hook/298e3a34-c6ff-42da-81ad-67e400196e1b
