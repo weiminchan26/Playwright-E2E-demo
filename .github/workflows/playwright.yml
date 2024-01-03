@@ -33,6 +33,9 @@ jobs:
       run: pnpm exec playwright test:preview
       if: ${{ github.event.client_payload.env == 'live' }}
       run: pnpm exec playwright test
+    - name: Run Playwright preview tests
+      if: ${{ github.event.client_payload.env == 'live' }}
+      run: pnpm exec playwright test
     - uses: actions/upload-artifact@v3
       if: always()
       with:
