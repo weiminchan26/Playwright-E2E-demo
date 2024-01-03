@@ -31,8 +31,6 @@ jobs:
     - name: Run Playwright tests
       if: ${{ github.event.client_payload.env == 'preview' }}
       run: pnpm exec playwright test:preview
-      if: ${{ github.event.client_payload.env == 'live' }}
-      run: pnpm exec playwright test
     - name: Run Playwright preview tests
       if: ${{ github.event.client_payload.env == 'live' }}
       run: pnpm exec playwright test
