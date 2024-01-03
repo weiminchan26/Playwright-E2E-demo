@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test:ui": "playwright test --ui",
-    "test": "playwright test"
+    "test": "cross-env APP_ENV=live playwright test",
+    "test:preview": "cross-env APP_ENV=preview playwright test"
   },
   "keywords": [],
   "author": "",

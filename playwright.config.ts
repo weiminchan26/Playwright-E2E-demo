@@ -6,11 +6,14 @@ export const SUBSCRIBED_STORAGE_STATE = path.join(__dirname, 'playwright/.auth/s
 
 export const UNSUBSCRIBED_STORAGE_STATE = path.join(__dirname, 'playwright/.auth/unsubscribed.json');
 
-// const getToken = (path: string): string => {
-//   const state = JSON.parse(fs.readFileSync(path, 'utf8'));
-//   return state['origins'][0].localStorage.find((ls) => ls.name === 'user_token')['value'];
-// }
-
+const env = process.env.APP_ENV || 'live';
+const maps: Record<string, string> = {
+  dev: 'http://localhost:5174',
+  testing: 'https://platform-testing.workmagic.io',
+  preview: 'https://platform-preview.workmagic.io',
+  staging: 'https://platform.workmagic.io',
+  live: 'https://platform.workmagic.io',
+};
 export default defineConfig({
   testDir: 'tests',
   fullyParallel: true,
@@ -28,7 +31,7 @@ export default defineConfig({
   //   ['junit', { outputFile: 'results.xml' }]
   // ],
   use: {
-    baseURL: 'https://platform-testing.workmagic.io',
+    baseURL: maps[env],
     trace: 'on-first-retry',
   },
   projects: [

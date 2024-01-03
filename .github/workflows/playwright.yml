@@ -29,6 +29,9 @@ jobs:
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps
     - name: Run Playwright tests
+      if: ${{ github.event.client_payload.env == 'preview' }}
+      run: pnpm exec playwright test:preview
+      if: ${{ github.event.client_payload.env == 'live' }}
       run: pnpm exec playwright test
     - uses: actions/upload-artifact@v3
       if: always()
